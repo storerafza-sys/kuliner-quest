@@ -11,7 +11,7 @@
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="sheet">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -118,48 +118,289 @@
 
     /* Glow Panel Pilihan A (Kiri) & Pilihan B (Kanan) */
     .zone-a-active {
-      border-color: #38BDF8 !important;
-      background: rgba(14, 165, 233, 0.25) !important;
-      box-shadow: 0 0 38px rgba(56, 189, 248, 0.5) !important;
-      transform: scale(1.02);
+      border-color: #34D399 !important;
+      background: rgba(16, 185, 129, 0.42) !important;
+      box-shadow: inset 0 0 60px rgba(16, 185, 129, 0.35) !important;
     }
     .zone-b-active {
-      border-color: #6366F1 !important;
-      background: rgba(99, 102, 241, 0.25) !important;
-      box-shadow: 0 0 38px rgba(99, 102, 241, 0.5) !important;
-      transform: scale(1.02);
+      border-color: #FB7185 !important;
+      background: rgba(244, 63, 94, 0.42) !important;
+      box-shadow: inset 0 0 60px rgba(244, 63, 94, 0.35) !important;
     }
 
-    /* Gameplay layar penuh: kamera menjadi latar, zona menjadi area pilihan */
-    body:has(#screen-game.active) { overflow: hidden; }
-    body:has(#screen-game.active) header { display: none; }
-    body:has(#screen-game.active) main { max-width: none; width: 100%; padding: 0; margin: 0; }
+
+    /* GAMEPLAY FULLSCREEN: webcam sebagai latar dan dua zona jawaban */
     #screen-game.active {
-      display: block; position: fixed; inset: 0; z-index: 40; width: 100vw; height: 100dvh;
-      overflow: hidden; background: #020617;
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      width: 100vw;
+      height: 100dvh;
+      max-width: none;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      background: #020617;
+      animation: none;
     }
-    .game-camera-bg { position: absolute; inset: 0; width: 100%; height: 100%; background: #020617; }
-    .game-camera-bg video, .game-camera-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .game-camera-bg video { transform: scaleX(-1); }
-    .game-zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 5; display:flex; align-items:flex-end; justify-content:center; padding: 2rem 1rem; border: 0; color:white; cursor:pointer; transition:background .18s, box-shadow .18s; }
-    .game-zone-a { left:0; background:linear-gradient(180deg,rgba(16,185,129,.08),rgba(16,185,129,.25)); border-right:1px solid rgba(255,255,255,.18); }
-    .game-zone-b { right:0; background:linear-gradient(180deg,rgba(244,63,94,.08),rgba(244,63,94,.25)); }
-    .game-zone-a:hover, .game-zone-a:focus-visible { background:rgba(16,185,129,.34); box-shadow:inset 0 0 70px rgba(16,185,129,.35); }
-    .game-zone-b:hover, .game-zone-b:focus-visible { background:rgba(244,63,94,.34); box-shadow:inset 0 0 70px rgba(244,63,94,.35); }
-    .game-zone-label { padding:.8rem 1.3rem; border-radius:1rem; font-weight:900; letter-spacing:.08em; font-size:clamp(1rem,2vw,1.5rem); text-shadow:0 2px 8px #000; backdrop-filter:blur(8px); }
-    .game-zone-a .game-zone-label { background:rgba(5,150,105,.72); border:1px solid rgba(167,243,208,.8); }
-    .game-zone-b .game-zone-label { background:rgba(225,29,72,.72); border:1px solid rgba(254,205,211,.8); }
-    .game-top-layer { position:absolute; z-index:15; top:0; left:0; right:0; padding:clamp(.8rem,2vw,1.5rem); pointer-events:none; }
-    .game-top-layer button { pointer-events:auto; }
-    .game-question { max-width:1000px; margin:1.2rem auto 0; padding:clamp(1rem,2.4vw,2rem); border-radius:1.5rem; background:rgba(2,6,23,.78); border:1px solid rgba(255,255,255,.25); backdrop-filter:blur(12px); text-align:center; }
-    .game-question h2 { color:#fff; font-size:clamp(1.25rem,3vw,2.6rem); line-height:1.25; font-weight:900; text-shadow:0 3px 5px #000,0 0 16px rgba(0,0,0,.9); }
-    .game-hud { display:flex; justify-content:space-between; align-items:center; gap:.8rem; color:#fff; text-shadow:0 2px 6px #000; }
-    .game-timer { min-width:82px; text-align:center; padding:.5rem .9rem; border-radius:1rem; background:rgba(2,6,23,.82); border:2px solid rgba(255,255,255,.55); font-size:1.4rem; font-weight:900; }
-    .game-timer.urgent { color:#fecdd3; border-color:#fb7185; }
-    #feedback-overlay { z-index:70; }
-    #screen-result.active { display:block; }
-    @media (max-width:640px) { .game-zone { padding:1rem .35rem; } .game-zone-label { writing-mode:vertical-rl; padding:.65rem .45rem; } .game-question { margin-top:.8rem; } }
+    .game-camera-bg { position:absolute; inset:0; width:100%; height:100%; background:#020617; }
+    .game-camera-bg video, .game-camera-bg canvas {
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    }
+    .game-zone {
+      position:absolute; top:0; bottom:0; width:50%; z-index:5;
+      display:flex; align-items:flex-end; justify-content:center;
+      padding: clamp(16px, 4vw, 48px);
+      border:0; cursor:pointer; color:white; transition:background .2s, box-shadow .2s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .game-zone-left { left:0; background:linear-gradient(90deg,rgba(16,185,129,.30),rgba(16,185,129,.08)); border-right:1px solid rgba(255,255,255,.25); }
+    .game-zone-right { right:0; background:linear-gradient(270deg,rgba(244,63,94,.30),rgba(244,63,94,.08)); }
+    .game-zone-left:hover, .game-zone-left:focus-visible { background:rgba(16,185,129,.38); box-shadow:inset 0 0 70px rgba(16,185,129,.22); }
+    .game-zone-right:hover, .game-zone-right:focus-visible { background:rgba(244,63,94,.38); box-shadow:inset 0 0 70px rgba(244,63,94,.22); }
+    .game-zone:disabled { cursor:default; opacity:.65; }
+    .game-zone-label { pointer-events:none; text-align:center; padding:14px 20px; border-radius:18px; font-weight:900; letter-spacing:.08em; text-shadow:0 2px 10px #000; backdrop-filter:blur(8px); }
+    .game-zone-left .game-zone-label { background:rgba(5,150,105,.72); border:1px solid rgba(167,243,208,.7); }
+    .game-zone-right .game-zone-label { background:rgba(225,29,72,.72); border:1px solid rgba(254,205,211,.7); }
+    .game-question-wrap { position:absolute; z-index:15; top:clamp(76px,12vh,120px); left:50%; transform:translateX(-50%); width:min(900px,88vw); text-align:center; pointer-events:none; }
+    .game-question { display:inline-block; padding:clamp(14px,2.4vw,28px); border-radius:22px; background:rgba(2,6,23,.78); border:1px solid rgba(255,255,255,.30); color:#fff; font-weight:900; font-size:clamp(1.25rem,3vw,2.6rem); line-height:1.25; text-shadow:0 3px 8px #000, 0 0 18px rgba(0,0,0,.9); box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .game-hud { position:absolute; z-index:25; top:14px; left:14px; right:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; pointer-events:none; }
+    .game-hud > * { pointer-events:auto; }
+    .game-hud-card { background:rgba(2,6,23,.82); border:1px solid rgba(255,255,255,.22); border-radius:14px; padding:9px 13px; backdrop-filter:blur(12px); }
+    .game-timer { font-size:clamp(1.4rem,3vw,2rem); font-weight:900; color:white; line-height:1; }
+    .game-camera-tools { position:absolute; z-index:26; bottom:14px; left:50%; transform:translateX(-50%); display:flex; flex-wrap:wrap; justify-content:center; gap:8px; width:max-content; max-width:95vw; }
+    .game-camera-tools button { background:rgba(2,6,23,.82); border:1px solid rgba(255,255,255,.28); border-radius:12px; padding:9px 12px; color:#fff; font-size:12px; font-weight:700; backdrop-filter:blur(10px); }
+    #direction-badge { bottom:68px !important; z-index:24 !important; }
+    #feedback-overlay { z-index:60; }
+    @media(max-width:640px) {
+      .game-hud { top:8px; left:8px; right:8px; }
+      .game-question-wrap { top:105px; width:94vw; }
+      .game-zone { padding:10px; }
+      .game-zone-label { font-size:11px; padding:10px 8px; }
+      .game-camera-tools { bottom:8px; }
+      .game-camera-tools button { padding:8px 9px; font-size:10px; }
+    }
 
+/* =========================================
+   KULINER QUEST - TAMPILAN ARENA FULLSCREEN
+   ========================================= */
+
+body:has(#screen-game.active) {
+  overflow: hidden;
+}
+
+body:has(#screen-game.active) > header {
+  display: none;
+}
+
+body:has(#screen-game.active) main {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#screen-game.active {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  padding: 12px;
+  margin: 0;
+  overflow: hidden;
+  z-index: 40;
+  background: #071014;
+}
+
+/* Kamera menjadi latar penuh */
+#screen-game > div:nth-child(3) {
+  position: absolute;
+  inset: 0;
+  display: block !important;
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+}
+
+#screen-game > div:nth-child(3) > div:nth-child(2) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#screen-game .aspect-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
+}
+
+#webcam-video,
+#pose-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* HUD bagian atas */
+#screen-game > div:nth-child(1) {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(10, 25, 35, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+/* Pertanyaan di bagian atas tengah */
+#screen-game > div:nth-child(2) {
+  position: absolute;
+  top: 125px;
+  left: 5%;
+  width: 90%;
+  z-index: 10;
+  padding: 20px;
+  border-radius: 25px;
+  background: rgba(12, 25, 38, 0.92);
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 10px 35px rgba(0,0,0,.4);
+}
+
+#arena-teks-soal {
+  color: white;
+  font-size: clamp(17px, 4vw, 25px);
+  line-height: 1.45;
+  text-shadow: 0 2px 5px #000;
+}
+
+/* Sembunyikan meter posisi yang tidak diperlukan */
+#screen-game .mt-3 {
+  display: none;
+}
+
+/* Panel pilihan kiri dan kanan */
+#panel-zona-a,
+#panel-zona-b {
+  position: absolute;
+  bottom: 18px;
+  width: 44%;
+  min-height: 110px;
+  z-index: 8;
+  padding: 14px;
+  border-radius: 25px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,.35);
+}
+
+#panel-zona-a {
+  left: 3%;
+  background: rgba(190, 35, 65, .65);
+  border: 2px solid #fb7185;
+}
+
+#panel-zona-b {
+  right: 3%;
+  background: rgba(5, 130, 95, .68);
+  border: 2px solid #34d399;
+}
+
+/* Sederhanakan isi panel pilihan */
+#panel-zona-a .w-20,
+#panel-zona-b .w-20 {
+  display: none;
+}
+
+#panel-zona-a h3,
+#panel-zona-b h3 {
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+#panel-zona-a p,
+#panel-zona-b p {
+  font-size: 11px;
+}
+
+#panel-zona-a .w-full.mt-5,
+#panel-zona-b .w-full.mt-5 {
+  margin-top: 8px;
+}
+
+/* Panel penjelasan setelah menjawab */
+#feedback-overlay {
+  background: rgba(0, 0, 0, .35);
+  backdrop-filter: blur(3px);
+  padding: 18px;
+}
+
+#feedback-card {
+  max-width: 720px;
+  width: 100%;
+  padding: 25px;
+  border-radius: 28px;
+  background: rgba(14, 32, 43, .96);
+  border: 2px solid #34d399;
+  box-shadow: 0 15px 50px rgba(0,0,0,.5);
+  text-align: left;
+}
+
+#feedback-icon-wrap {
+  display: none;
+}
+
+#feedback-title {
+  font-size: 22px;
+}
+
+#feedback-explanation {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Tombol dan teks tetap mudah dibaca di HP */
+@media (max-width: 600px) {
+  #screen-game.active {
+    padding: 8px;
+  }
+
+  #screen-game > div:nth-child(2) {
+    top: 135px;
+    left: 4%;
+    width: 92%;
+    padding: 16px;
+  }
+
+  #panel-zona-a,
+  #panel-zona-b {
+    bottom: 12px;
+    width: 45%;
+    min-height: 100px;
+    padding: 10px;
+  }
+
+  #panel-zona-a h3,
+  #panel-zona-b h3 {
+    font-size: 15px;
+  }
+
+  #feedback-card {
+    padding: 20px;
+  }
+}
   </style>
 </head>
 <body class="antialiased selection:bg-sky-500 selection:text-white">
@@ -220,7 +461,7 @@
           Tantangan Interaktif dengan <span class="blue-gradient-text">Gerakan Tubuh!</span>
         </h2>
         <p class="text-sm sm:text-base text-slate-300">
-          Condongkan kepala atau tubuh ke <strong class="text-sky-300">KIRI untuk PILIHAN A</strong>, dan ke <strong class="text-indigo-300">KANAN untuk PILIHAN B</strong>.
+          Condongkan tubuh ke <strong class="text-emerald-300">KIRI untuk BENAR</strong>, dan ke <strong class="text-rose-300">KANAN untuk SALAH</strong>. Kamu juga dapat klik zona atau memakai tombol panah.
         </p>
       </div>
 
@@ -359,21 +600,21 @@
                     <input type="radio" name="kesulitan" id="diff-mudah" value="Mudah" class="hidden" checked>
                     <label for="diff-mudah" class="flex flex-col items-center py-2.5 px-2 rounded-xl border border-blue-700/70 bg-blueDeep/80 cursor-pointer transition hover:border-sky-400/50">
                       <span class="text-xs font-bold">Mudah</span>
-                      <span class="text-[10px] text-slate-400">20 dtk/soal</span>
+                      <span class="text-[10px] text-slate-400">10 dtk/soal</span>
                     </label>
                   </div>
                   <div>
                     <input type="radio" name="kesulitan" id="diff-sedang" value="Sedang" class="hidden">
                     <label for="diff-sedang" class="flex flex-col items-center py-2.5 px-2 rounded-xl border border-blue-700/70 bg-blueDeep/80 cursor-pointer transition hover:border-sky-400/50">
                       <span class="text-xs font-bold">Sedang</span>
-                      <span class="text-[10px] text-slate-400">15 dtk/soal</span>
+                      <span class="text-[10px] text-slate-400">10 dtk/soal</span>
                     </label>
                   </div>
                   <div>
                     <input type="radio" name="kesulitan" id="diff-sulit" value="Sulit" class="hidden">
                     <label for="diff-sulit" class="flex flex-col items-center py-2.5 px-2 rounded-xl border border-blue-700/70 bg-blueDeep/80 cursor-pointer transition hover:border-sky-400/50">
                       <span class="text-xs font-bold">Sulit</span>
-                      <span class="text-[10px] text-slate-400">12 dtk/soal</span>
+                      <span class="text-[10px] text-slate-400">10 dtk/soal</span>
                     </label>
                   </div>
                 </div>
@@ -412,85 +653,134 @@
     <!-- ===================================================================
          2. ARENA BERMAIN PILIHAN A & B (GARIS PEMBAGI DUA LAYAR)
          =================================================================== -->
-    <section id="screen-game" class="screen-section" aria-label="Layar bermain">
+    <section id="screen-game" class="screen-section" aria-label="Layar permainan KULINER QUEST">
+      <!-- Webcam mirror sebagai latar penuh layar -->
       <div class="game-camera-bg">
-        <video id="webcam-video" autoplay muted playsinline></video>
-        <canvas id="pose-canvas" class="pointer-events-none"></canvas>
-        <div id="cam-fallback-overlay" class="hidden absolute inset-0 z-30 bg-slate-950/95 text-white flex flex-col items-center justify-center p-8 text-center">
-          <i class="fa-solid fa-video-slash text-5xl text-emerald-300 mb-4"></i>
-          <h3 class="text-2xl font-black mb-2">Kamera belum aktif</h3>
-          <p id="cam-fallback-reason" class="max-w-xl text-slate-200 mb-5">Izinkan akses kamera pada browser untuk menampilkan video.</p>
-          <button type="button" onclick="mulaiKameraDanMediaPipe()" class="btn-primary-blue rounded-xl px-5 py-3 font-bold">Aktifkan Kamera</button>
+        <video id="webcam-video" class="mirror-view" autoplay muted playsinline></video>
+        <canvas id="pose-canvas" class="mirror-view pointer-events-none"></canvas>
+        <div id="cam-fallback-overlay" class="hidden absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-6 text-center z-30">
+          <i class="fa-solid fa-video-slash text-4xl text-emerald-300 mb-3"></i>
+          <p class="font-display font-bold text-lg text-white mb-2">Kamera Tidak Aktif</p>
+          <p id="cam-fallback-reason" class="text-sm text-slate-200 max-w-md mb-4">Izinkan akses kamera pada browser.</p>
+          <button type="button" onclick="mulaiKameraDanMediaPipe()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold">Aktifkan Kamera</button>
         </div>
       </div>
 
-      <button id="panel-zona-a" type="button" class="game-zone game-zone-a" onclick="kunciJawabanPemain(true, 'klik')" aria-label="Pilih area kiri, jawaban benar">
-        <span class="game-zone-label"><i class="fa-solid fa-check mr-2"></i>KIRI · AREA BENAR</span>
+      <!-- Dua zona transparan raksasa; klik kiri=Benar/A, kanan=Salah/B -->
+      <button type="button" id="panel-zona-a" class="game-zone game-zone-left" onclick="kunciJawabanPemain(true, 'klik')" aria-label="Pilih Benar, tombol kiri">
+        <span class="game-zone-label"><span class="block text-3xl sm:text-5xl">BENAR</span><span class="block text-xs sm:text-sm mt-1">KIRI • A • ←</span></span>
       </button>
-      <button id="panel-zona-b" type="button" class="game-zone game-zone-b" onclick="kunciJawabanPemain(false, 'klik')" aria-label="Pilih area kanan, jawaban salah">
-        <span class="game-zone-label"><i class="fa-solid fa-xmark mr-2"></i>KANAN · AREA SALAH</span>
+      <button type="button" id="panel-zona-b" class="game-zone game-zone-right" onclick="kunciJawabanPemain(false, 'klik')" aria-label="Pilih Salah, tombol kanan">
+        <span class="game-zone-label"><span class="block text-3xl sm:text-5xl">SALAH</span><span class="block text-xs sm:text-sm mt-1">KANAN • B • →</span></span>
       </button>
 
-      <div class="game-top-layer">
-        <div class="game-hud">
-          <div class="rounded-xl bg-slate-950/80 border border-white/25 px-3 py-2">
-            <div id="hud-nomor-soal" class="font-extrabold">Pertanyaan 1 / 5</div>
-            <div id="hud-pemain-info" class="text-xs text-slate-200">Peserta: -</div>
-            <div id="hud-kategori-badge" class="text-xs text-emerald-200">Dunia Bumbu</div>
-          </div>
-          <div class="game-timer" id="hud-timer-box"><div class="text-[10px] uppercase tracking-widest">Waktu</div><div id="hud-timer">10</div></div>
-          <button type="button" onclick="konfirmasiKeluarArena()" class="rounded-xl bg-slate-950/80 border border-white/30 px-3 py-2 text-sm font-bold"><i class="fa-solid fa-arrow-left mr-1"></i> Keluar</button>
-        </div>
-        <div class="game-question">
-          <div class="text-xs sm:text-sm uppercase tracking-[.2em] font-bold text-emerald-200 mb-2">Baca Pernyataan</div>
-          <h2 id="arena-teks-soal">Memuat pernyataan...</h2>
-          <div class="mt-3 flex justify-center gap-3 text-xs text-white/90">
-            <span>← Panah kiri: pilih KIRI</span><span>•</span><span>Panah kanan: pilih KANAN →</span>
-          </div>
-        </div>
-        <div class="max-w-xs mx-auto mt-3 h-1.5 rounded-full bg-black/50 overflow-hidden"><div id="hud-progress-bar" class="h-full bg-emerald-400" style="width:20%"></div></div>
-        <div id="hud-progress-text" class="text-center text-xs text-white font-bold mt-1" style="text-shadow:0 2px 5px #000">20%</div>
+      <!-- Soal berada di tengah atas, di atas feed kamera -->
+      <div class="game-question-wrap">
+        <div class="text-[10px] sm:text-xs font-black tracking-[.2em] text-white mb-2 drop-shadow-lg">KULINER QUEST • BACA PERNYATAAN</div>
+        <h2 id="arena-teks-soal" class="game-question">Memuat pernyataan...</h2>
       </div>
 
-      <!-- Elemen kompatibilitas pelacak pose lama, tidak ditampilkan pada mode layar penuh -->
-      <div class="hidden"><span id="cam-status-text"></span><span id="cam-status-dot"></span><span id="direction-badge"></span><span id="dwell-text-a"></span><span id="dwell-text-b"></span><div id="dwell-bar-a"></div><div id="dwell-bar-b"></div><div id="head-position-marker"></div><div id="camera-center-divider"></div><div id="cam-label-a"></div><div id="cam-label-b"></div></div>
+      <!-- HUD dan timer -->
+      <div class="game-hud">
+        <div class="game-hud-card text-white">
+          <div id="hud-nomor-soal" class="font-extrabold text-xs sm:text-sm">Pertanyaan 1 / 5</div>
+          <div class="text-[10px] sm:text-xs text-slate-200"><span id="hud-kategori-badge">Dunia Bumbu</span> • <span id="hud-pemain-info">Peserta: -</span></div>
+          <div class="w-32 sm:w-52 h-1.5 bg-slate-700 rounded-full mt-2 overflow-hidden"><div id="hud-progress-bar" class="h-full bg-emerald-400" style="width:0%"></div></div>
+          <span id="hud-progress-text" class="sr-only">0%</span>
+        </div>
+        <div class="game-hud-card text-center min-w-[82px]">
+          <div class="text-[9px] uppercase tracking-widest text-slate-200 font-bold">WAKTU</div>
+          <div id="hud-timer" class="game-timer">10d</div>
+          <div id="hud-timer-box" class="hidden"></div>
+        </div>
+        <button type="button" onclick="konfirmasiKeluarArena()" class="game-hud-card text-white text-xs font-bold" title="Kembali ke pengaturan"><i class="fa-solid fa-arrow-left mr-1"></i><span class="hidden sm:inline">Keluar</span></button>
+      </div>
 
+      <!-- Kontrol kamera tetap tersedia tanpa menghalangi zona jawaban -->
+      <div class="game-camera-tools">
+        <span id="cam-status-dot" class="hidden"></span><span id="cam-status-text" class="game-hud-card text-white text-[10px]">Menyiapkan kamera...</span>
+        <button type="button" onclick="kalibrasiPosisiTengah()"><i class="fa-solid fa-crosshairs mr-1"></i>Kalibrasi</button>
+        <button type="button" onclick="toggleKameraAktif()"><i class="fa-solid fa-video mr-1"></i>Kamera On/Off</button>
+      </div>
+      <div id="camera-center-divider" class="hidden absolute inset-y-0 left-1/2 w-px bg-white/30 pointer-events-none z-10"></div>
+      <div id="cam-label-a" class="hidden"></div><div id="cam-label-b" class="hidden"></div>
+      <div id="direction-badge" class="absolute bottom-16 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-950/85 border border-white/40 text-xs font-extrabold text-white shadow-lg">POSISI: NETRAL</div>
+      <div class="hidden"><div id="head-position-marker"></div><div id="dwell-bar-a"></div><div id="dwell-text-a"></div><div id="dwell-bar-b"></div><div id="dwell-text-b"></div></div>
+
+      <!-- Feedback penjelasan selama 5 detik -->
       <div id="feedback-overlay" class="hidden fixed inset-0 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
-        <div id="feedback-card" class="glass-panel rounded-3xl max-w-xl w-full p-6 sm:p-8 text-center border-2">
-          <div id="feedback-icon-wrap" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4"><i id="feedback-icon" class="fa-solid fa-lightbulb"></i></div>
-          <h3 id="feedback-title" class="font-display font-extrabold text-3xl sm:text-4xl mb-2">PEMBAHASAN</h3>
-          <p id="feedback-subtitle" class="text-sm font-semibold mb-4 text-emerald-200">Kunci Jawaban</p>
-          <div class="bg-slate-950/80 border border-white/20 rounded-2xl p-4 text-left mb-5">
-            <div class="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-2">Penjelasan</div>
-            <p id="feedback-explanation" class="text-sm sm:text-base text-slate-100 leading-relaxed">Penjelasan soal.</p>
+        <div id="feedback-card" class="max-w-xl w-full rounded-3xl p-6 sm:p-8 text-center border-2 border-white/30 bg-slate-900/95 shadow-2xl">
+          <div id="feedback-icon-wrap" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl mb-3 bg-emerald-500/20 text-emerald-300"><i id="feedback-icon" class="fa-solid fa-check"></i></div>
+          <h3 id="feedback-title" class="font-display font-extrabold text-2xl sm:text-3xl mb-2 text-white">Terima kasih sudah menjawab!</h3>
+          <p id="feedback-subtitle" class="text-sm font-semibold mb-4 text-slate-200">Kunci Jawaban</p>
+          <div class="rounded-2xl p-4 text-left mb-4 bg-slate-800/90 border border-white/15">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300 mb-1">Penjelasan Materi</div>
+            <p id="feedback-explanation" class="text-sm text-white leading-relaxed">Penjelasan muncul di sini.</p>
           </div>
-          <div class="text-xs text-slate-200"><i class="fa-solid fa-clock mr-1"></i> Soal berikutnya dalam 5 detik</div>
+          <div class="text-xs text-slate-300"><i class="fa-solid fa-spinner fa-spin mr-1"></i><span id="feedback-next-text">Soal berikutnya dalam 5 detik...</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================
-         3. HALAMAN UCAPAN KEBERHASILAN (TANPA NILAI ANGKA)
-         =================================================================== -->
     <section id="screen-result" class="screen-section max-w-4xl mx-auto space-y-6">
-      <div class="glass-panel rounded-3xl p-8 sm:p-12 text-center">
-        <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white text-5xl mb-6"><i class="fa-solid fa-party-horn"></i></div>
-        <div class="inline-flex px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold uppercase tracking-widest mb-3">Sesi belajar selesai</div>
-        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white mb-3">KEREN! KAMU HEBAT!</h2>
-        <h3 id="res-nama" class="font-display font-bold text-xl sm:text-2xl text-white mb-2">Nama Pemain</h3>
-        <p id="res-info-sesi" class="text-sm text-emerald-200 mb-5">Materi pembelajaran</p>
-        <p id="res-ucapan-utama" class="max-w-2xl mx-auto text-base text-slate-100 leading-relaxed mb-5">Terima kasih sudah ikut bermain dan belajar. Setiap soal adalah kesempatan untuk memahami hal baru!</p>
-        <div class="flex flex-wrap justify-center gap-4 text-sm text-emerald-200 mb-7">
-          <span><i class="fa-solid fa-list-check mr-1"></i> Total soal: <strong id="res-total" class="text-white">0</strong></span>
-          <span><i class="fa-solid fa-stopwatch mr-1"></i> Durasi: <strong id="res-waktu" class="text-white">00:00</strong></span>
+      <div class="glass-panel rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+        <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white text-5xl shadow-2xl border border-sky-200/50 mb-6 animate-bounce">
+          <i class="fa-solid fa-trophy"></i>
         </div>
-        <div class="flex flex-wrap justify-center gap-3">
-          <button onclick="mainLagiSama()" class="btn-primary-blue px-7 py-3.5 rounded-2xl font-display font-extrabold text-sm"><i class="fa-solid fa-rotate-right mr-2"></i>MAIN LAGI</button>
-          <button onclick="kembaliKePengaturan()" class="px-7 py-3.5 rounded-2xl bg-blue-800 hover:bg-blue-700 border border-sky-400/50 text-white font-bold text-sm"><i class="fa-solid fa-sliders mr-2"></i>PENGATURAN</button>
+
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold uppercase tracking-widest mb-3">
+          <i class="fa-solid fa-sparkles"></i> Misi Pembelajaran Selesai
+        </div>
+
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl blue-gradient-text tracking-tight mb-3">
+          SELAMAT & SUKSES!
+        </h2>
+
+        <h3 id="res-nama" class="font-display font-bold text-xl sm:text-2xl text-white mb-2">
+          Nama Pemain
+        </h3>
+
+        <p id="res-info-sesi" class="text-xs sm:text-sm text-sky-300 mb-6">
+          Tingkat • Kategori • Kesulitan
+        </p>
+
+        <div class="max-w-2xl mx-auto bg-blueDeep/85 border border-sky-400/35 rounded-2xl p-6 mb-8">
+          <p id="res-ucapan-utama" class="text-base sm:text-lg text-slate-100 leading-relaxed font-medium">
+            Luar biasa! Anda telah berhasil menyelesaikan seluruh tantangan pertanyaan interaktif dengan penuh semangat dan ketangkasan. Terus asah keterampilan Anda!
+          </p>
+          <div class="mt-4 pt-4 border-t border-blue-800/70 flex flex-wrap items-center justify-center gap-4 text-xs text-sky-300">
+            <span><i class="fa-solid fa-list-check mr-1.5"></i>Total Tantangan: <strong id="res-total" class="text-white">0</strong> Soal</span>
+            <span>•</span>
+            <span><i class="fa-solid fa-stopwatch mr-1.5"></i>Durasi Sesi: <strong id="res-waktu" class="text-white">00:00</strong></span>
+          </div>
+        </div>
+
+        <!-- 3 Tombol Aksi Utama -->
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <button onclick="mainLagiSama()" class="btn-primary-blue px-6 py-3.5 rounded-2xl font-display font-extrabold text-sm flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>MAIN LAGI</span>
+          </button>
+          <button onclick="kembaliKePengaturan()" class="px-6 py-3.5 rounded-2xl bg-blue-800/80 hover:bg-blue-700 border border-sky-400/50 text-white font-display font-bold text-sm flex items-center gap-2 transition cursor-pointer">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>PILIH MATERI</span>
+          </button>
+          <button onclick="toggleDaftarPembahasan()" class="px-6 py-3.5 rounded-2xl bg-blueDeep hover:bg-blue-950 border border-sky-400/50 text-sky-300 font-display font-bold text-sm flex items-center gap-2 transition cursor-pointer">
+            <i class="fa-solid fa-book-open"></i>
+            <span>ULASAN MATERI</span>
+          </button>
         </div>
       </div>
-      <div class="glass-panel rounded-3xl p-6 sm:p-8">
-        <div class="flex items-center gap-3 border-b border-blue-800 pb-4 mb-4"><i class="fa-solid fa-book-open text-emerald-300 text-xl"></i><div><h3 class="font-display font-bold text-xl text-white">Review Materi</h3><p class="text-xs text-slate-300">Ringkasan penjelasan dari seluruh soal yang sudah dimainkan.</p></div></div>
+
+      <!-- Panel Ulasan Materi Lengkap -->
+      <div id="panel-pembahasan-lengkap" class="glass-panel rounded-3xl p-6 sm:p-8 space-y-4">
+        <div class="flex items-center justify-between border-b border-blue-800 pb-3">
+          <h3 class="font-display font-bold text-lg text-white flex items-center gap-2">
+            <i class="fa-solid fa-book-medical text-sky-400"></i>
+            <span>Ulasan & Penjelasan Setiap Pertanyaan</span>
+          </h3>
+          <button onclick="toggleDaftarPembahasan()" class="text-xs text-slate-400 hover:text-white cursor-pointer">Tutup</button>
+        </div>
         <div id="list-pembahasan-detail" class="space-y-3"></div>
       </div>
     </section>
@@ -584,11 +874,11 @@
         </li>
         <li class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
-          <span>Condongkan kepala atau bahu ke <strong class="text-sky-300">KIRI</strong> selama 1 detik untuk memilih <strong class="text-sky-300">PILIHAN A</strong>.</span>
+          <span>Condongkan tubuh ke <strong class="text-emerald-300">KIRI</strong> selama 1 detik untuk memilih <strong class="text-emerald-300">BENAR</strong>, atau klik zona kiri / tekan panah kiri.</span>
         </li>
         <li class="flex items-start gap-2.5">
           <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
-          <span>Condongkan kepala atau bahu ke <strong class="text-indigo-300">KANAN</strong> selama 1 detik untuk memilih <strong class="text-indigo-300">PILIHAN B</strong>.</span>
+          <span>Condongkan tubuh ke <strong class="text-rose-300">KANAN</strong> selama 1 detik untuk memilih <strong class="text-rose-300">SALAH</strong>, atau klik zona kanan / tekan panah kanan.</span>
         </li>
       </ul>
       <button onclick="tutupModalPanduan()" class="mt-6 w-full btn-primary-blue py-3 rounded-xl font-display font-bold text-sm cursor-pointer">
@@ -644,7 +934,6 @@
     ];
 
     let bankSoalAktif = [...BANK_SOAL_BAWAAN];
-    let feedbackTimeout = null;
 
     let gameState = {
       pemain: "",
@@ -675,7 +964,7 @@
       currentDirection: "NEUTRAL",
       dwellDirection: "NEUTRAL",
       dwellStartTime: 0,
-      dwellDurationMs: 1000,
+      dwellDurationMs: 7000,
       lastRawX: 0.5
     };
 
@@ -767,8 +1056,8 @@
       document.addEventListener("keydown", (e) => {
         const arenaAktif = document.getElementById("screen-game").classList.contains("active");
         if (!arenaAktif || gameState.isEvaluating) return;
-        if (e.key === "ArrowLeft") { e.preventDefault(); kunciJawabanPemain(true, "keyboard"); }
-        else if (e.key === "ArrowRight") { e.preventDefault(); kunciJawabanPemain(false, "keyboard"); }
+        if (e.key === "ArrowLeft") kunciJawabanPemain(true, "keyboard");
+        else if (e.key === "ArrowRight") kunciJawabanPemain(false, "keyboard");
       });
     });
 
@@ -916,7 +1205,7 @@
         tujuan,
         jumlahSoal,
         kesulitan,
-        waktuPerSoal: 10,
+        waktuPerSoal: mapWaktu[kesulitan] || 15,
         soalAktif: siapkanPaketSoal(kategori, kesulitan, jumlahSoal),
         indeksSoal: 0,
         riwayatJawaban: [],
@@ -934,7 +1223,9 @@
       if (!soal) return;
 
       gameState.isEvaluating = false;
-      gameState.sisaWaktuSoal = 10;
+      document.getElementById("panel-zona-a").disabled = false;
+      document.getElementById("panel-zona-b").disabled = false;
+      gameState.sisaWaktuSoal = gameState.waktuPerSoal;
       resetDwellProgress();
 
       document.getElementById("feedback-overlay").classList.add("hidden");
@@ -979,7 +1270,7 @@
     function perbaruiTampilanTimer() {
       const timerEl = document.getElementById("hud-timer");
       const boxEl = document.getElementById("hud-timer-box");
-      timerEl.textContent = `${gameState.sisaWaktuSoal} detik`;
+      timerEl.textContent = `${gameState.sisaWaktuSoal}d`;
 
       if (gameState.sisaWaktuSoal <= 5) {
         timerEl.classList.add("text-rose-400");
@@ -993,6 +1284,8 @@
     function kunciJawabanPemain(jawabanUser, sumber = "kamera") {
       if (gameState.isEvaluating) return;
       gameState.isEvaluating = true;
+      document.getElementById("panel-zona-a").disabled = true;
+      document.getElementById("panel-zona-b").disabled = true;
       clearInterval(gameState.timerInterval);
       resetDwellProgress();
 
@@ -1046,8 +1339,7 @@
 
       overlay.classList.remove("hidden");
 
-      clearTimeout(feedbackTimeout);
-      feedbackTimeout = setTimeout(() => {
+      setTimeout(() => {
         if (masihAdaSoal) {
           gameState.indeksSoal++;
           muatSoalSekarang();
@@ -1055,7 +1347,7 @@
           overlay.classList.add("hidden");
           selesaikanPermainan();
         }
-      }, 5000);
+      }, 7000);
     }
 
     // Kamera & MediaPipe Pose (Direct getUserMedia + Pose Tracking)
@@ -1324,7 +1616,7 @@
         const badgeClass = item.isTepat
           ? "bg-sky-500/20 text-sky-300 border-sky-400/40"
           : "bg-indigo-500/20 text-indigo-300 border-indigo-400/40";
-        const statusLabel = item.isTepat ? "SUDAH DIPAHAMI" : (item.isTimeout ? "PELAJARI LAGI" : "ULANGI MATERI");
+        const statusLabel = item.isTepat ? "TEPAT" : (item.isTimeout ? "WAKTU HABIS" : "PERLU DIINGAT");
         const jawabanUserLabel = item.jawabanUser === null ? "-" : (item.jawabanUser ? "PILIHAN A" : "PILIHAN B");
         const kunciLabel = item.soal.jawaban ? "PILIHAN A" : "PILIHAN B";
 
@@ -1438,7 +1730,6 @@
     }
 
     function mainLagiSama() {
-      clearTimeout(feedbackTimeout);
       gameState.soalAktif = siapkanPaketSoal(gameState.kategori, gameState.kesulitan, gameState.jumlahSoal);
       gameState.indeksSoal = 0;
       gameState.riwayatJawaban = [];
@@ -1450,8 +1741,6 @@
 
     function kembaliKePengaturan() {
       clearInterval(gameState.timerInterval);
-      clearTimeout(feedbackTimeout);
-      document.getElementById("feedback-overlay").classList.add("hidden");
       matikanKamera();
       window.speechSynthesis.cancel();
       tampilkanLayar("screen-setup");
